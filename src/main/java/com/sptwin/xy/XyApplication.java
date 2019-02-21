@@ -12,4 +12,5 @@ public class XyApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(XyApplication.class, args);
 	}
+	public void b(){}
 }
