@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sptwin.xy.mapper.CommodityMapper">
+  <resultMap id="BaseResultMap" type="com.sptwin.xy.entity.Commodity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="exchange_no" jdbcType="VARCHAR" property="exchangeNo" />
+    <result column="currency_no" jdbcType="VARCHAR" property="currencyNo" />
+    <result column="commodity_no" jdbcType="VARCHAR" property="commodityNo" />
+    <result column="commodity_name" jdbcType="VARCHAR" property="commodityName" />
+    <result column="min_tick" jdbcType="DECIMAL" property="minTick" />
+    <result column="min_tick_price" jdbcType="DECIMAL" property="minTickPrice" />
+    <result column="max_single_order_vol" jdbcType="INTEGER" property="maxSingleOrderVol" />
+    <result column="max_hol_vol" jdbcType="INTEGER" property="maxHolVol" />
+    <result column="status" jdbcType="CHAR" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, exchange_no, currency_no, commodity_no, commodity_name, min_tick, min_tick_price, 
+    max_single_order_vol, max_hol_vol, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_commodity
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_commodity
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.sptwin.xy.entity.Commodity">
+    insert into t_commodity (id, exchange_no, currency_no, 
+      commodity_no, commodity_name, min_tick, 
+      min_tick_price, max_single_order_vol, max_hol_vol, 
+      status)
+    values (#{id,jdbcType=BIGINT}, #{exchangeNo,jdbcType=VARCHAR}, #{currencyNo,jdbcType=VARCHAR}, 
+      #{commodityNo,jdbcType=VARCHAR}, #{commodityName,jdbcType=VARCHAR}, #{minTick,jdbcType=DECIMAL}, 
+      #{minTickPrice,jdbcType=DECIMAL}, #{maxSingleOrderVol,jdbcType=INTEGER}, #{maxHolVol,jdbcType=INTEGER}, 
+      #{status,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sptwin.xy.entity.Commodity">
+    insert into t_commodity
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="exchangeNo != null">
+        exchange_no,
+      </if>
+      <if test="currencyNo != null">
+        currency_no,
+      </if>
+      <if test="commodityNo != null">
+        commodity_no,
+      </if>
+      <if test="commodityName != null">
+        commodity_name,
+      </if>
+      <if test="minTick != null">
+        min_tick,
+      </if>
+      <if test="minTickPrice != null">
+        min_tick_price,
+      </if>
+      <if test="maxSingleOrderVol != null">
+        max_single_order_vol,
+      </if>
+      <if test="maxHolVol != null">
+        max_hol_vol,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="exchangeNo != null">
+        #{exchangeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="currencyNo != null">
+        #{currencyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityNo != null">
+        #{commodityNo,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityName != null">
+        #{commodityName,jdbcType=VARCHAR},
+      </if>
+      <if test="minTick != null">
+        #{minTick,jdbcType=DECIMAL},
+      </if>
+      <if test="minTickPrice != null">
+        #{minTickPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="maxSingleOrderVol != null">
+        #{maxSingleOrderVol,jdbcType=INTEGER},
+      </if>
+      <if test="maxHolVol != null">
+        #{maxHolVol,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sptwin.xy.entity.Commodity">
+    update t_commodity
+    <set>
+      <if test="exchangeNo != null">
+        exchange_no = #{exchangeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="currencyNo != null">
+        currency_no = #{currencyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityNo != null">
+        commodity_no = #{commodityNo,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityName != null">
+        commodity_name = #{commodityName,jdbcType=VARCHAR},
+      </if>
+      <if test="minTick != null">
+        min_tick = #{minTick,jdbcType=DECIMAL},
+      </if>
+      <if test="minTickPrice != null">
+        min_tick_price = #{minTickPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="maxSingleOrderVol != null">
+        max_single_order_vol = #{maxSingleOrderVol,jdbcType=INTEGER},
+      </if>
+      <if test="maxHolVol != null">
+        max_hol_vol = #{maxHolVol,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sptwin.xy.entity.Commodity">
+    update t_commodity
+    set exchange_no = #{exchangeNo,jdbcType=VARCHAR},
+      currency_no = #{currencyNo,jdbcType=VARCHAR},
+      commodity_no = #{commodityNo,jdbcType=VARCHAR},
+      commodity_name = #{commodityName,jdbcType=VARCHAR},
+      min_tick = #{minTick,jdbcType=DECIMAL},
+      min_tick_price = #{minTickPrice,jdbcType=DECIMAL},
+      max_single_order_vol = #{maxSingleOrderVol,jdbcType=INTEGER},
+      max_hol_vol = #{maxHolVol,jdbcType=INTEGER},
+      status = #{status,jdbcType=CHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

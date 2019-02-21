@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sptwin.xy.mapper.TransMapper">
+    <resultMap id="OrderResultMap" type="com.sptwin.xy.pojo.OrderCustom">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="order_id" property="orderId" jdbcType="VARCHAR"/>
+        <result column="client_no" property="clientNo" jdbcType="VARCHAR"/>
+        <result column="commodity_no" property="commodityNo" jdbcType="VARCHAR"/>
+        <result column="contract_no" property="contractNo" jdbcType="VARCHAR"/>
+        <result column="order_type" property="orderTypeEnum" jdbcType="INTEGER"
+                typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+        <result column="risk_order" property="riskOrderEnum" jdbcType="INTEGER"
+                typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+        <result column="direct" property="directEnum" jdbcType="INTEGER"
+                typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+        <result column="open_or_close" property="openOrCloseEnum" jdbcType="INTEGER"
+                typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+        <result column="order_price" property="orderPrice" jdbcType="DECIMAL"/>
+        <result column="order_vol" property="orderVol" jdbcType="INTEGER"/>
+        <result column="order_time" property="orderTime" jdbcType="TIMESTAMP"/>
+        <result column="match_price" property="matchPrice" jdbcType="DECIMAL"/>
+        <result column="match_vol" property="matchVol" jdbcType="INTEGER"/>
+        <result column="status" property="orderStatusEnum" jdbcType="INTEGER"
+                typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+        <result column="order_person" property="orderPerson" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="HistoryOrderResultMap" type="com.sptwin.xy.pojo.OrderCustom" extends="OrderResultMap">
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <resultMap id="MatchResultMap" type="com.sptwin.xy.pojo.MatchCustom">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="order_id" property="orderId" jdbcType="VARCHAR"/>
+        <result column="commodity_no" property="commodityNo" jdbcType="VARCHAR"/>
+        <result column="currency_no" property="currencyNo" jdbcType="VARCHAR"/>
+        <result column="contract_no" property="contractNo" jdbcType="VARCHAR"/>
+        <result column="client_no" property="clientNo" jdbcType="VARCHAR"/>
+        <result column="direct" property="directEnum" jdbcType="INTEGER"
+                typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+        <result column="open_or_close" property="openOrCloseEnum" jdbcType="INTEGER"
+                typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+        <result column="match_price" property="matchPrice" jdbcType="DECIMAL"/>
+        <result column="match_vol" property="matchVol" jdbcType="INTEGER"/>
+        <result column="match_time" property="matchTime" jdbcType="TIMESTAMP"/>
+        <result column="fee" property="fee" jdbcType="DECIMAL"/>
+    </resultMap>
+    <resultMap id="HistoryMatchResultMap" type="com.sptwin.xy.pojo.MatchCustom" extends="MatchResultMap">
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <resultMap id="HoldResultMap" type="com.sptwin.xy.pojo.HoldCustom">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="order_id" property="orderId" jdbcType="VARCHAR"/>
+        <result column="commodity_no" property="commodityNo" jdbcType="VARCHAR"/>
+        <result column="contract_no" property="contractNo" jdbcType="VARCHAR"/>
+        <result column="client_id" property="clientId" jdbcType="BIGINT"/>
+        <result column="direct" property="directEnum" jdbcType="INTEGER"
+                typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+        <result column="hold_price" property="holdPrice" jdbcType="DECIMAL"/>
+        <result column="hold_vol" property="holdVol" jdbcType="INTEGER"/>
+        <result column="match_time" property="matchTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <resultMap id="HistoryHoldResultMap" type="com.sptwin.xy.pojo.HoldCustom" extends="HoldResultMap">
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Order_Column_List">
+        id, order_id, client_no, commodity_no, contract_no, order_type, risk_order, direct, open_or_close,
+        order_price, order_vol, order_time, match_price, match_vol, status, order_person
+    </sql>
+    <sql id="History_Order_Column_List">
+        id, order_id, client_no, commodity_no, contract_no, order_type, risk_order, direct, open_or_close,
+        order_price, order_vol, order_time, match_price, match_vol, status, order_person, create_time
+    </sql>
+    <sql id="Match_Column_List">
+        id, order_id, commodity_no, currency_no, contract_no, client_no, direct, open_or_close,
+        match_price, match_vol, match_time, fee
+    </sql>
+    <sql id="History_Match_Column_List">
+        id, order_id, commodity_no, currency_no, contract_no, client_no, direct, open_or_close,
+        match_price, match_vol, match_time, fee, create_time
+    </sql>
+    <sql id="Hold_Column_List">
+        id, order_id, commodity_no, contract_no, client_id, direct, hold_price, hold_vol,
+        match_time
+    </sql>
+    <sql id="History_Hold_Column_List">
+        id, order_id, commodity_no, contract_no, client_id, direct, hold_price, hold_vol,
+        match_time, create_time
+    </sql>
+    <!--where-->
+    <sql id="trans_where">
+        <if test="list.size() > 0">
+            and client_no in
+            <foreach collection="list" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="clientNo!=null and clientNo!=''">
+            and client_no = #{clientNo}
+        </if>
+    </sql>
+    <sql id="history_trans_where">
+        <if test="clientNo!=null and clientNo!=''">
+            and client_no = #{clientNo}
+        </if>
+        <if test="startDate!=null">
+            and to_days(create_time) &gt;= to_days(#{startDate})
+        </if>
+        <if test="endDate!=null">
+            and to_days(create_time) &lt;= to_days(#{endDate})
+        </if>
+        <if test="list.size() > 0">
+            and client_no in
+            <foreach collection="list" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+    </sql>
+    <select id="queryOrder" resultMap="OrderResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Order_Column_List"/>
+        from t_order
+        <where>
+            <include refid="trans_where"></include>
+        </where>
+        order by id desc
+    </select>
+    <select id="queryMatch" resultMap="MatchResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Match_Column_List"/>
+        from t_match
+        <where>
+            <include refid="trans_where"></include>
+        </where>
+        order by id desc
+    </select>
+    <select id="queryHold" resultMap="HoldResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Hold_Column_List"/>
+        from t_hold
+        <where>
+            <include refid="trans_where"></include>
+        </where>
+        order by id desc
+    </select>
+    <select id="queryOrderHistoryPage" resultMap="HistoryOrderResultMap">
+        select
+        <include refid="History_Order_Column_List"/>
+        from t_history_order
+        <where>
+            <include refid="history_trans_where"></include>
+        </where>
+        order by id desc
+    </select>
+    <select id="queryMatchHistoryPage" resultMap="HistoryMatchResultMap">
+        select
+        <include refid="History_Match_Column_List"/>
+        from t_history_match
+        <where>
+            <include refid="history_trans_where"></include>
+        </where>
+        order by id desc
+    </select>
+    <select id="queryHoldHistoryPage" resultMap="HistoryHoldResultMap">
+        select
+        <include refid="History_Hold_Column_List"/>
+        from t_history_hold
+        <where>
+            <include refid="history_trans_where"></include>
+        </where>
+        order by id desc
+    </select>
+</mapper>

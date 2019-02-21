@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sptwin.xy.mapper.HistoryOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.sptwin.xy.entity.HistoryOrder" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="client_no" property="clientNo" jdbcType="VARCHAR" />
+    <result column="commodity_no" property="commodityNo" jdbcType="VARCHAR" />
+    <result column="contract_no" property="contractNo" jdbcType="VARCHAR" />
+    <result column="order_type" property="orderType" jdbcType="INTEGER" />
+    <result column="risk_order" property="riskOrder" jdbcType="INTEGER" />
+    <result column="direct" property="direct" jdbcType="INTEGER" />
+    <result column="open_or_close" property="openOrClose" jdbcType="INTEGER" />
+    <result column="order_price" property="orderPrice" jdbcType="DECIMAL" />
+    <result column="currency_no" property="currencyNo" jdbcType="VARCHAR" />
+    <result column="order_vol" property="orderVol" jdbcType="INTEGER" />
+    <result column="order_time" property="orderTime" jdbcType="TIMESTAMP" />
+    <result column="match_price" property="matchPrice" jdbcType="DECIMAL" />
+    <result column="match_vol" property="matchVol" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="order_person" property="orderPerson" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, order_id, client_no, commodity_no, contract_no, order_type, risk_order, direct, 
+    open_or_close, order_price, currency_no, order_vol, order_time, match_price, match_vol, 
+    status, order_person, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_history_order
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_history_order
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.sptwin.xy.entity.HistoryOrder" >
+    insert into t_history_order (id, order_id, client_no, 
+      commodity_no, contract_no, order_type, 
+      risk_order, direct, open_or_close, 
+      order_price, currency_no, order_vol, 
+      order_time, match_price, match_vol, 
+      status, order_person, create_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{orderId,jdbcType=VARCHAR}, #{clientNo,jdbcType=VARCHAR}, 
+      #{commodityNo,jdbcType=VARCHAR}, #{contractNo,jdbcType=VARCHAR}, #{orderType,jdbcType=INTEGER}, 
+      #{riskOrder,jdbcType=INTEGER}, #{direct,jdbcType=INTEGER}, #{openOrClose,jdbcType=INTEGER}, 
+      #{orderPrice,jdbcType=DECIMAL}, #{currencyNo,jdbcType=VARCHAR}, #{orderVol,jdbcType=INTEGER}, 
+      #{orderTime,jdbcType=TIMESTAMP}, #{matchPrice,jdbcType=DECIMAL}, #{matchVol,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{orderPerson,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sptwin.xy.entity.HistoryOrder" >
+    insert into t_history_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="clientNo != null" >
+        client_no,
+      </if>
+      <if test="commodityNo != null" >
+        commodity_no,
+      </if>
+      <if test="contractNo != null" >
+        contract_no,
+      </if>
+      <if test="orderType != null" >
+        order_type,
+      </if>
+      <if test="riskOrder != null" >
+        risk_order,
+      </if>
+      <if test="direct != null" >
+        direct,
+      </if>
+      <if test="openOrClose != null" >
+        open_or_close,
+      </if>
+      <if test="orderPrice != null" >
+        order_price,
+      </if>
+      <if test="currencyNo != null" >
+        currency_no,
+      </if>
+      <if test="orderVol != null" >
+        order_vol,
+      </if>
+      <if test="orderTime != null" >
+        order_time,
+      </if>
+      <if test="matchPrice != null" >
+        match_price,
+      </if>
+      <if test="matchVol != null" >
+        match_vol,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="orderPerson != null" >
+        order_person,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="clientNo != null" >
+        #{clientNo,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityNo != null" >
+        #{commodityNo,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNo != null" >
+        #{contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null" >
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="riskOrder != null" >
+        #{riskOrder,jdbcType=INTEGER},
+      </if>
+      <if test="direct != null" >
+        #{direct,jdbcType=INTEGER},
+      </if>
+      <if test="openOrClose != null" >
+        #{openOrClose,jdbcType=INTEGER},
+      </if>
+      <if test="orderPrice != null" >
+        #{orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="currencyNo != null" >
+        #{currencyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderVol != null" >
+        #{orderVol,jdbcType=INTEGER},
+      </if>
+      <if test="orderTime != null" >
+        #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="matchPrice != null" >
+        #{matchPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="matchVol != null" >
+        #{matchVol,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="orderPerson != null" >
+        #{orderPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sptwin.xy.entity.HistoryOrder" >
+    update t_history_order
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="clientNo != null" >
+        client_no = #{clientNo,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityNo != null" >
+        commodity_no = #{commodityNo,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNo != null" >
+        contract_no = #{contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null" >
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="riskOrder != null" >
+        risk_order = #{riskOrder,jdbcType=INTEGER},
+      </if>
+      <if test="direct != null" >
+        direct = #{direct,jdbcType=INTEGER},
+      </if>
+      <if test="openOrClose != null" >
+        open_or_close = #{openOrClose,jdbcType=INTEGER},
+      </if>
+      <if test="orderPrice != null" >
+        order_price = #{orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="currencyNo != null" >
+        currency_no = #{currencyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderVol != null" >
+        order_vol = #{orderVol,jdbcType=INTEGER},
+      </if>
+      <if test="orderTime != null" >
+        order_time = #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="matchPrice != null" >
+        match_price = #{matchPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="matchVol != null" >
+        match_vol = #{matchVol,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="orderPerson != null" >
+        order_person = #{orderPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sptwin.xy.entity.HistoryOrder" >
+    update t_history_order
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      client_no = #{clientNo,jdbcType=VARCHAR},
+      commodity_no = #{commodityNo,jdbcType=VARCHAR},
+      contract_no = #{contractNo,jdbcType=VARCHAR},
+      order_type = #{orderType,jdbcType=INTEGER},
+      risk_order = #{riskOrder,jdbcType=INTEGER},
+      direct = #{direct,jdbcType=INTEGER},
+      open_or_close = #{openOrClose,jdbcType=INTEGER},
+      order_price = #{orderPrice,jdbcType=DECIMAL},
+      currency_no = #{currencyNo,jdbcType=VARCHAR},
+      order_vol = #{orderVol,jdbcType=INTEGER},
+      order_time = #{orderTime,jdbcType=TIMESTAMP},
+      match_price = #{matchPrice,jdbcType=DECIMAL},
+      match_vol = #{matchVol,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      order_person = #{orderPerson,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sptwin.xy.mapper.FundCustomMapper">
+    <resultMap id="FundResultMap" type="com.sptwin.xy.entity.Fund">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="client_no" property="clientNo" jdbcType="VARCHAR"/>
+        <result column="currency_no" property="currencyNo" jdbcType="VARCHAR"/>
+        <result column="capital" property="capital" jdbcType="DECIMAL"/>
+        <result column="account" property="account" jdbcType="DECIMAL"/>
+        <result column="available" property="available" jdbcType="DECIMAL"/>
+        <result column="credit" property="credit" jdbcType="DECIMAL"/>
+        <result column="deposit" property="deposit" jdbcType="DECIMAL"/>
+        <result column="fee" property="fee" jdbcType="DECIMAL"/>
+        <result column="frozen_fund" property="frozenFund" jdbcType="DECIMAL"/>
+        <result column="close_profit" property="closeProfit" jdbcType="DECIMAL"/>
+        <result column="float_profit" property="floatProfit" jdbcType="DECIMAL"/>
+    </resultMap>
+    <resultMap id="HistoryFundResultMap" type="com.sptwin.xy.entity.HistoryFund" extends="FundResultMap">
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <resultMap id="OutInResultMap" type="com.sptwin.xy.pojo.OutInMoneyCustom">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="client_no" property="clientNo" jdbcType="VARCHAR"/>
+        <result column="out_or_in" property="outOrIn" jdbcType="VARCHAR"/>
+        <result column="change_money" property="changeMoney" jdbcType="DECIMAL"/>
+        <result column="change_time" property="changeTime" jdbcType="TIMESTAMP"/>
+        <result column="mode" property="outInModeEnum" jdbcType="INTEGER"
+                typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+        <result column="mode" property="mode" jdbcType="INTEGER"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+    </resultMap>
+    <resultMap id="CreditResultMap" type="com.sptwin.xy.entity.CreditMoney">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="client_no" jdbcType="VARCHAR" property="clientNo"/>
+        <result column="credit" jdbcType="DECIMAL" property="credit"/>
+        <result column="credit_time" jdbcType="TIMESTAMP" property="creditTime"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+    </resultMap>
+    <sql id="Credit_Column_List">
+        id, client_no, credit, credit_time, remark, user_id
+    </sql>
+    <sql id="Out_In_Column_List">
+        id, client_no, out_or_in, change_money, change_time, mode, remark, user_id
+    </sql>
+    <sql id="Fund_Column_List">
+        id, client_no, currency_no, capital, account, available, credit, deposit, fee, frozen_fund,
+        close_profit, float_profit
+    </sql>
+    <sql id="History_Fund_Column_List">
+        id, client_no, currency_no, capital, account, available, credit, deposit, fee, frozen_fund,
+        close_profit, float_profit, create_time
+    </sql>
+    <!--where-->
+    <sql id="fund_where">
+        <if test="clientNo!=null and clientNo!=''">
+            and client_no = #{clientNo}
+        </if>
+        <if test="list.size() > 0">
+            and client_no in
+            <foreach collection="list" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="out_in_history_where">
+        <if test="clientNo!=null and clientNo!=''">
+            and client_no = #{clientNo}
+        </if>
+        <if test="startDate!=null">
+            and to_days(change_time) &gt;= to_days(#{startDate})
+        </if>
+        <if test="endDate!=null">
+            and to_days(change_time) &lt;= to_days(#{endDate})
+        </if>
+        <if test="list.size() > 0">
+            and client_no in
+            <foreach collection="list" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="credit_history_where">
+        <if test="clientNo!=null and clientNo!=''">
+            and client_no = #{clientNo}
+        </if>
+        <if test="startDate!=null">
+            and to_days(credit_time) &gt;= to_days(#{startDate})
+        </if>
+        <if test="endDate!=null">
+            and to_days(credit_time) &lt;= to_days(#{endDate})
+        </if>
+        <if test="list.size() > 0">
+            and client_no in
+            <foreach collection="list" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="fund_history_where">
+        <if test="clientNo!=null and clientNo!=''">
+            and client_no = #{clientNo}
+        </if>
+        <if test="startDate!=null">
+            and to_days(create_time) &gt;= to_days(#{startDate})
+        </if>
+        <if test="endDate!=null">
+            and to_days(create_time) &lt;= to_days(#{endDate})
+        </if>
+        <if test="list.size() > 0">
+            and client_no in
+            <foreach collection="list" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+    </sql>
+    <select id="queryFund" resultMap="FundResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Fund_Column_List"/>
+        from t_fund
+        <where>
+            <include refid="fund_where"></include>
+        </where>
+        order by id desc
+    </select>
+    <select id="queryFundOutIn" resultMap="OutInResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Out_In_Column_List"/>
+        from t_out_in_money
+        <where>
+            to_days(change_time) = to_days(now())
+            <include refid="fund_where"></include>
+        </where>
+        order by id desc
+    </select>
+    <select id="queryFundCredit" resultMap="CreditResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Credit_Column_List"/>
+        from t_credit_money
+        <where>
+            to_days(credit_time) = to_days(now())
+            <include refid="fund_where"></include>
+        </where>
+        order by id desc
+    </select>
+    <select id="queryFundHistoryPage" resultMap="HistoryFundResultMap">
+        select
+        <include refid="History_Fund_Column_List"/>
+        from t_history_fund
+        <where>
+            <include refid="fund_history_where"></include>
+        </where>
+        order by id desc
+    </select>
+    <select id="queryFundOutInHistoryPage" resultMap="OutInResultMap">
+        select
+        <include refid="Out_In_Column_List"/>
+        from t_out_in_money
+        <where>
+            <include refid="out_in_history_where"></include>
+        </where>
+        order by id desc
+    </select>
+    <select id="queryFundCreditHistoryPage" resultMap="CreditResultMap">
+        select
+        <include refid="Credit_Column_List"/>
+        from t_credit_money
+        <where>
+            <include refid="credit_history_where"></include>
+        </where>
+        order by id desc
+    </select>
+</mapper>

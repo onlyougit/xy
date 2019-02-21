@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sptwin.xy.mapper.ContractCustomMapper" >
+  <resultMap id="ContractCustomResultMap" type="com.sptwin.xy.pojo.ContractCustom" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="commodity_no" property="commodityNo" jdbcType="VARCHAR" />
+    <result column="contract_no" property="contractNo" jdbcType="VARCHAR" />
+    <result column="exchange_no" property="exchangeNo" jdbcType="VARCHAR" />
+    <result column="contract_name" property="contractName" jdbcType="VARCHAR" />
+    <result column="last_trade_date" property="lastTradeDate" jdbcType="TIMESTAMP" />
+    <result column="main_contract" property="contractTypeEnum" jdbcType="INTEGER"
+            typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
+    <result column="status" property="contractStatusEnum" jdbcType="CHAR" />
+  </resultMap>
+  <resultMap id="ContractResultMap" type="com.sptwin.xy.pojo.ContractCustom" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="commodity_no" property="commodityNo" jdbcType="VARCHAR" />
+    <result column="contract_no" property="contractNo" jdbcType="VARCHAR" />
+    <result column="exchange_no" property="exchangeNo" jdbcType="VARCHAR" />
+    <result column="contract_name" property="contractName" jdbcType="VARCHAR" />
+    <result column="last_trade_date" property="lastTradeDate" jdbcType="TIMESTAMP" />
+    <result column="main_contract" property="mainContract" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Contract_Column_List" >
+    id, commodity_no, exchange_no, contract_no, contract_name, last_trade_date, main_contract,
+    status
+  </sql>
+  <!--where-->
+  <sql id="contract_page_where">
+    <if test="value!=null">
+      and main_contract = #{value}
+    </if>
+  </sql>
+  <sql id="contract_where">
+    <if test="mainContract!=null">
+      and main_contract = #{mainContract}
+    </if>
+    <if test="exchangeNo!=null">
+      and exchange_no = #{exchangeNo}
+    </if>
+    <if test="commodityNo!=null">
+      and commodity_no = #{commodityNo}
+    </if>
+  </sql>
+  <select id="queryContractPage" parameterType="java.lang.Integer" resultMap="ContractCustomResultMap">
+    select
+    <include refid="Contract_Column_List" />
+    from t_contract
+    <where>
+      <include refid="contract_page_where"></include>
+    </where>
+    order by commodity_no desc
+  </select>
+  <select id="queryContract" parameterType="com.sptwin.xy.entity.Contract" resultMap="ContractCustomResultMap">
+    select
+    <include refid="Contract_Column_List" />
+    from t_contract
+    <where>
+      <include refid="contract_where"></include>
+    </where>
+    order by id desc
+  </select>
+  <select id="queryById" parameterType="java.lang.Long" resultMap="ContractCustomResultMap">
+    select
+    <include refid="Contract_Column_List" />
+    from t_contract
+    where id = #{value}
+  </select>
+  <select id="batchQueryContract" parameterType="java.util.List" resultMap="ContractResultMap">
+    select
+    <include refid="Contract_Column_List" />
+    from t_contract
+    where id in
+    <foreach collection="list" item="item" separator="," open="(" close=")">
+      #{item}
+    </foreach>
+  </select>
+
+  <update id="batchUpdateContract" parameterType="java.util.List">
+    UPDATE t_contract set main_contract=1 WHERE id IN
+    <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </update>
+</mapper>

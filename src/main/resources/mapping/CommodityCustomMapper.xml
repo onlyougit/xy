@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sptwin.xy.mapper.CommodityCustomMapper">
+  <resultMap id="CommodityResultMap" type="com.sptwin.xy.pojo.CommodityCustom">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="exchange_no" jdbcType="VARCHAR" property="exchangeNo" />
+    <result column="currency_no" jdbcType="VARCHAR" property="currencyNo" />
+    <result column="commodity_no" jdbcType="VARCHAR" property="commodityNo" />
+    <result column="commodity_name" jdbcType="VARCHAR" property="commodityName" />
+    <result column="min_tick" jdbcType="DECIMAL" property="minTick" />
+    <result column="min_tick_price" jdbcType="DECIMAL" property="minTickPrice" />
+    <result column="max_single_order_vol" jdbcType="INTEGER" property="maxSingleOrderVol" />
+    <result column="max_hol_vol" jdbcType="INTEGER" property="maxHolVol" />
+    <result column="status" jdbcType="CHAR" property="commodityStatusEnum" />
+  </resultMap>
+  <sql id="Commodity_Column_List">
+    id, exchange_no, currency_no, commodity_no, commodity_name, min_tick, min_tick_price, 
+    max_single_order_vol, max_hol_vol, status
+  </sql>
+  <!--where-->
+  <sql id="commodity_where">
+    <if test="commodityNo!=null and commodityNo!=''">
+      and commodity_no =#{commodityNo}
+    </if>
+    <if test="exchangeNo!=null and exchangeNo!=''">
+      and exchange_no =#{exchangeNo}
+    </if>
+  </sql>
+  <select id="queryCommodityPage" parameterType="com.sptwin.xy.pojo.CommodityCustom" resultMap="CommodityResultMap">
+    select
+    <include refid="Commodity_Column_List" />
+    from t_commodity
+    <where>
+      <include refid="commodity_where"></include>
+    </where>
+    order by id desc
+  </select>
+  <select id="queryContract" parameterType="com.sptwin.xy.entity.Commodity" resultMap="CommodityResultMap">
+    select
+    <include refid="Commodity_Column_List" />
+    from t_commodity
+    <where>
+      <include refid="commodity_where"></include>
+    </where>
+    order by id desc
+  </select>
+</mapper>

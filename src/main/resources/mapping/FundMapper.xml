@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sptwin.xy.mapper.FundMapper" >
+  <resultMap id="BaseResultMap" type="com.sptwin.xy.entity.Fund" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="client_no" property="clientNo" jdbcType="VARCHAR" />
+    <result column="currency_no" property="currencyNo" jdbcType="VARCHAR" />
+    <result column="capital" property="capital" jdbcType="DECIMAL" />
+    <result column="account" property="account" jdbcType="DECIMAL" />
+    <result column="available" property="available" jdbcType="DECIMAL" />
+    <result column="credit" property="credit" jdbcType="DECIMAL" />
+    <result column="deposit" property="deposit" jdbcType="DECIMAL" />
+    <result column="fee" property="fee" jdbcType="DECIMAL" />
+    <result column="frozen_fund" property="frozenFund" jdbcType="DECIMAL" />
+    <result column="close_profit" property="closeProfit" jdbcType="DECIMAL" />
+    <result column="float_profit" property="floatProfit" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, client_no, currency_no, capital, account, available, credit, deposit, fee, frozen_fund, 
+    close_profit, float_profit
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_fund
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_fund
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.sptwin.xy.entity.Fund" >
+    insert into t_fund (id, client_no, currency_no, 
+      capital, account, available, 
+      credit, deposit, fee, 
+      frozen_fund, close_profit, float_profit
+      )
+    values (#{id,jdbcType=BIGINT}, #{clientNo,jdbcType=VARCHAR}, #{currencyNo,jdbcType=VARCHAR}, 
+      #{capital,jdbcType=DECIMAL}, #{account,jdbcType=DECIMAL}, #{available,jdbcType=DECIMAL}, 
+      #{credit,jdbcType=DECIMAL}, #{deposit,jdbcType=DECIMAL}, #{fee,jdbcType=DECIMAL}, 
+      #{frozenFund,jdbcType=DECIMAL}, #{closeProfit,jdbcType=DECIMAL}, #{floatProfit,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sptwin.xy.entity.Fund" >
+    insert into t_fund
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="clientNo != null" >
+        client_no,
+      </if>
+      <if test="currencyNo != null" >
+        currency_no,
+      </if>
+      <if test="capital != null" >
+        capital,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="available != null" >
+        available,
+      </if>
+      <if test="credit != null" >
+        credit,
+      </if>
+      <if test="deposit != null" >
+        deposit,
+      </if>
+      <if test="fee != null" >
+        fee,
+      </if>
+      <if test="frozenFund != null" >
+        frozen_fund,
+      </if>
+      <if test="closeProfit != null" >
+        close_profit,
+      </if>
+      <if test="floatProfit != null" >
+        float_profit,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="clientNo != null" >
+        #{clientNo,jdbcType=VARCHAR},
+      </if>
+      <if test="currencyNo != null" >
+        #{currencyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="capital != null" >
+        #{capital,jdbcType=DECIMAL},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=DECIMAL},
+      </if>
+      <if test="available != null" >
+        #{available,jdbcType=DECIMAL},
+      </if>
+      <if test="credit != null" >
+        #{credit,jdbcType=DECIMAL},
+      </if>
+      <if test="deposit != null" >
+        #{deposit,jdbcType=DECIMAL},
+      </if>
+      <if test="fee != null" >
+        #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="frozenFund != null" >
+        #{frozenFund,jdbcType=DECIMAL},
+      </if>
+      <if test="closeProfit != null" >
+        #{closeProfit,jdbcType=DECIMAL},
+      </if>
+      <if test="floatProfit != null" >
+        #{floatProfit,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sptwin.xy.entity.Fund" >
+    update t_fund
+    <set >
+      <if test="clientNo != null" >
+        client_no = #{clientNo,jdbcType=VARCHAR},
+      </if>
+      <if test="currencyNo != null" >
+        currency_no = #{currencyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="capital != null" >
+        capital = #{capital,jdbcType=DECIMAL},
+      </if>
+      <if test="account != null" >
+        account = #{account,jdbcType=DECIMAL},
+      </if>
+      <if test="available != null" >
+        available = #{available,jdbcType=DECIMAL},
+      </if>
+      <if test="credit != null" >
+        credit = #{credit,jdbcType=DECIMAL},
+      </if>
+      <if test="deposit != null" >
+        deposit = #{deposit,jdbcType=DECIMAL},
+      </if>
+      <if test="fee != null" >
+        fee = #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="frozenFund != null" >
+        frozen_fund = #{frozenFund,jdbcType=DECIMAL},
+      </if>
+      <if test="closeProfit != null" >
+        close_profit = #{closeProfit,jdbcType=DECIMAL},
+      </if>
+      <if test="floatProfit != null" >
+        float_profit = #{floatProfit,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sptwin.xy.entity.Fund" >
+    update t_fund
+    set client_no = #{clientNo,jdbcType=VARCHAR},
+      currency_no = #{currencyNo,jdbcType=VARCHAR},
+      capital = #{capital,jdbcType=DECIMAL},
+      account = #{account,jdbcType=DECIMAL},
+      available = #{available,jdbcType=DECIMAL},
+      credit = #{credit,jdbcType=DECIMAL},
+      deposit = #{deposit,jdbcType=DECIMAL},
+      fee = #{fee,jdbcType=DECIMAL},
+      frozen_fund = #{frozenFund,jdbcType=DECIMAL},
+      close_profit = #{closeProfit,jdbcType=DECIMAL},
+      float_profit = #{floatProfit,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

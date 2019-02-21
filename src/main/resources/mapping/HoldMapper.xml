@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sptwin.xy.mapper.HoldMapper" >
+  <resultMap id="BaseResultMap" type="com.sptwin.xy.entity.Hold" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="client_no" property="clientNo" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="commodity_no" property="commodityNo" jdbcType="VARCHAR" />
+    <result column="contract_no" property="contractNo" jdbcType="VARCHAR" />
+    <result column="client_id" property="clientId" jdbcType="BIGINT" />
+    <result column="direct" property="direct" jdbcType="INTEGER" />
+    <result column="hold_price" property="holdPrice" jdbcType="DECIMAL" />
+    <result column="hold_vol" property="holdVol" jdbcType="INTEGER" />
+    <result column="deposit" property="deposit" jdbcType="DECIMAL" />
+    <result column="match_time" property="matchTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, client_no, order_id, commodity_no, contract_no, client_id, direct, hold_price, 
+    hold_vol, deposit, match_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_hold
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_hold
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.sptwin.xy.entity.Hold" >
+    insert into t_hold (id, client_no, order_id, 
+      commodity_no, contract_no, client_id, 
+      direct, hold_price, hold_vol, 
+      deposit, match_time)
+    values (#{id,jdbcType=BIGINT}, #{clientNo,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
+      #{commodityNo,jdbcType=VARCHAR}, #{contractNo,jdbcType=VARCHAR}, #{clientId,jdbcType=BIGINT}, 
+      #{direct,jdbcType=INTEGER}, #{holdPrice,jdbcType=DECIMAL}, #{holdVol,jdbcType=INTEGER}, 
+      #{deposit,jdbcType=DECIMAL}, #{matchTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sptwin.xy.entity.Hold" >
+    insert into t_hold
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="clientNo != null" >
+        client_no,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="commodityNo != null" >
+        commodity_no,
+      </if>
+      <if test="contractNo != null" >
+        contract_no,
+      </if>
+      <if test="clientId != null" >
+        client_id,
+      </if>
+      <if test="direct != null" >
+        direct,
+      </if>
+      <if test="holdPrice != null" >
+        hold_price,
+      </if>
+      <if test="holdVol != null" >
+        hold_vol,
+      </if>
+      <if test="deposit != null" >
+        deposit,
+      </if>
+      <if test="matchTime != null" >
+        match_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="clientNo != null" >
+        #{clientNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityNo != null" >
+        #{commodityNo,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNo != null" >
+        #{contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="clientId != null" >
+        #{clientId,jdbcType=BIGINT},
+      </if>
+      <if test="direct != null" >
+        #{direct,jdbcType=INTEGER},
+      </if>
+      <if test="holdPrice != null" >
+        #{holdPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="holdVol != null" >
+        #{holdVol,jdbcType=INTEGER},
+      </if>
+      <if test="deposit != null" >
+        #{deposit,jdbcType=DECIMAL},
+      </if>
+      <if test="matchTime != null" >
+        #{matchTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sptwin.xy.entity.Hold" >
+    update t_hold
+    <set >
+      <if test="clientNo != null" >
+        client_no = #{clientNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityNo != null" >
+        commodity_no = #{commodityNo,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNo != null" >
+        contract_no = #{contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="clientId != null" >
+        client_id = #{clientId,jdbcType=BIGINT},
+      </if>
+      <if test="direct != null" >
+        direct = #{direct,jdbcType=INTEGER},
+      </if>
+      <if test="holdPrice != null" >
+        hold_price = #{holdPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="holdVol != null" >
+        hold_vol = #{holdVol,jdbcType=INTEGER},
+      </if>
+      <if test="deposit != null" >
+        deposit = #{deposit,jdbcType=DECIMAL},
+      </if>
+      <if test="matchTime != null" >
+        match_time = #{matchTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sptwin.xy.entity.Hold" >
+    update t_hold
+    set client_no = #{clientNo,jdbcType=VARCHAR},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      commodity_no = #{commodityNo,jdbcType=VARCHAR},
+      contract_no = #{contractNo,jdbcType=VARCHAR},
+      client_id = #{clientId,jdbcType=BIGINT},
+      direct = #{direct,jdbcType=INTEGER},
+      hold_price = #{holdPrice,jdbcType=DECIMAL},
+      hold_vol = #{holdVol,jdbcType=INTEGER},
+      deposit = #{deposit,jdbcType=DECIMAL},
+      match_time = #{matchTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

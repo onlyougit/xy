@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sptwin.xy.mapper.MatchMapper" >
+  <resultMap id="BaseResultMap" type="com.sptwin.xy.entity.Match" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="commodity_no" property="commodityNo" jdbcType="VARCHAR" />
+    <result column="currency_no" property="currencyNo" jdbcType="VARCHAR" />
+    <result column="contract_no" property="contractNo" jdbcType="VARCHAR" />
+    <result column="client_no" property="clientNo" jdbcType="VARCHAR" />
+    <result column="direct" property="direct" jdbcType="INTEGER" />
+    <result column="open_or_close" property="openOrClose" jdbcType="INTEGER" />
+    <result column="match_price" property="matchPrice" jdbcType="DECIMAL" />
+    <result column="match_vol" property="matchVol" jdbcType="INTEGER" />
+    <result column="match_time" property="matchTime" jdbcType="TIMESTAMP" />
+    <result column="fee" property="fee" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, order_id, commodity_no, currency_no, contract_no, client_no, direct, open_or_close, 
+    match_price, match_vol, match_time, fee
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_match
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_match
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.sptwin.xy.entity.Match" >
+    insert into t_match (id, order_id, commodity_no, 
+      currency_no, contract_no, client_no, 
+      direct, open_or_close, match_price, 
+      match_vol, match_time, fee
+      )
+    values (#{id,jdbcType=BIGINT}, #{orderId,jdbcType=VARCHAR}, #{commodityNo,jdbcType=VARCHAR}, 
+      #{currencyNo,jdbcType=VARCHAR}, #{contractNo,jdbcType=VARCHAR}, #{clientNo,jdbcType=VARCHAR}, 
+      #{direct,jdbcType=INTEGER}, #{openOrClose,jdbcType=INTEGER}, #{matchPrice,jdbcType=DECIMAL}, 
+      #{matchVol,jdbcType=INTEGER}, #{matchTime,jdbcType=TIMESTAMP}, #{fee,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sptwin.xy.entity.Match" >
+    insert into t_match
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="commodityNo != null" >
+        commodity_no,
+      </if>
+      <if test="currencyNo != null" >
+        currency_no,
+      </if>
+      <if test="contractNo != null" >
+        contract_no,
+      </if>
+      <if test="clientNo != null" >
+        client_no,
+      </if>
+      <if test="direct != null" >
+        direct,
+      </if>
+      <if test="openOrClose != null" >
+        open_or_close,
+      </if>
+      <if test="matchPrice != null" >
+        match_price,
+      </if>
+      <if test="matchVol != null" >
+        match_vol,
+      </if>
+      <if test="matchTime != null" >
+        match_time,
+      </if>
+      <if test="fee != null" >
+        fee,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityNo != null" >
+        #{commodityNo,jdbcType=VARCHAR},
+      </if>
+      <if test="currencyNo != null" >
+        #{currencyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNo != null" >
+        #{contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="clientNo != null" >
+        #{clientNo,jdbcType=VARCHAR},
+      </if>
+      <if test="direct != null" >
+        #{direct,jdbcType=INTEGER},
+      </if>
+      <if test="openOrClose != null" >
+        #{openOrClose,jdbcType=INTEGER},
+      </if>
+      <if test="matchPrice != null" >
+        #{matchPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="matchVol != null" >
+        #{matchVol,jdbcType=INTEGER},
+      </if>
+      <if test="matchTime != null" >
+        #{matchTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fee != null" >
+        #{fee,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sptwin.xy.entity.Match" >
+    update t_match
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityNo != null" >
+        commodity_no = #{commodityNo,jdbcType=VARCHAR},
+      </if>
+      <if test="currencyNo != null" >
+        currency_no = #{currencyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNo != null" >
+        contract_no = #{contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="clientNo != null" >
+        client_no = #{clientNo,jdbcType=VARCHAR},
+      </if>
+      <if test="direct != null" >
+        direct = #{direct,jdbcType=INTEGER},
+      </if>
+      <if test="openOrClose != null" >
+        open_or_close = #{openOrClose,jdbcType=INTEGER},
+      </if>
+      <if test="matchPrice != null" >
+        match_price = #{matchPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="matchVol != null" >
+        match_vol = #{matchVol,jdbcType=INTEGER},
+      </if>
+      <if test="matchTime != null" >
+        match_time = #{matchTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fee != null" >
+        fee = #{fee,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sptwin.xy.entity.Match" >
+    update t_match
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      commodity_no = #{commodityNo,jdbcType=VARCHAR},
+      currency_no = #{currencyNo,jdbcType=VARCHAR},
+      contract_no = #{contractNo,jdbcType=VARCHAR},
+      client_no = #{clientNo,jdbcType=VARCHAR},
+      direct = #{direct,jdbcType=INTEGER},
+      open_or_close = #{openOrClose,jdbcType=INTEGER},
+      match_price = #{matchPrice,jdbcType=DECIMAL},
+      match_vol = #{matchVol,jdbcType=INTEGER},
+      match_time = #{matchTime,jdbcType=TIMESTAMP},
+      fee = #{fee,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sptwin.xy.mapper.ClientMapper" >
+  <resultMap id="BaseResultMap" type="com.sptwin.xy.entity.Client" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="client_agent_id" property="clientAgentId" jdbcType="BIGINT" />
+    <result column="client_group_id" property="clientGroupId" jdbcType="BIGINT" />
+    <result column="client_no" property="clientNo" jdbcType="VARCHAR" />
+    <result column="client_name" property="clientName" jdbcType="VARCHAR" />
+    <result column="client_password" property="clientPassword" jdbcType="VARCHAR" />
+    <result column="client_phone" property="clientPhone" jdbcType="VARCHAR" />
+    <result column="client_id_no" property="clientIdNo" jdbcType="VARCHAR" />
+    <result column="client_regist_date" property="clientRegistDate" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="salt" property="salt" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, client_agent_id, client_group_id, client_no, client_name, client_password, client_phone, 
+    client_id_no, client_regist_date, status, salt
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_client
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_client
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.sptwin.xy.entity.Client" >
+    insert into t_client (id, client_agent_id, client_group_id, 
+      client_no, client_name, client_password, 
+      client_phone, client_id_no, client_regist_date, 
+      status, salt)
+    values (#{id,jdbcType=BIGINT}, #{clientAgentId,jdbcType=BIGINT}, #{clientGroupId,jdbcType=BIGINT}, 
+      #{clientNo,jdbcType=VARCHAR}, #{clientName,jdbcType=VARCHAR}, #{clientPassword,jdbcType=VARCHAR}, 
+      #{clientPhone,jdbcType=VARCHAR}, #{clientIdNo,jdbcType=VARCHAR}, #{clientRegistDate,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=CHAR}, #{salt,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sptwin.xy.entity.Client" >
+    insert into t_client
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="clientAgentId != null" >
+        client_agent_id,
+      </if>
+      <if test="clientGroupId != null" >
+        client_group_id,
+      </if>
+      <if test="clientNo != null" >
+        client_no,
+      </if>
+      <if test="clientName != null" >
+        client_name,
+      </if>
+      <if test="clientPassword != null" >
+        client_password,
+      </if>
+      <if test="clientPhone != null" >
+        client_phone,
+      </if>
+      <if test="clientIdNo != null" >
+        client_id_no,
+      </if>
+      <if test="clientRegistDate != null" >
+        client_regist_date,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="salt != null" >
+        salt,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="clientAgentId != null" >
+        #{clientAgentId,jdbcType=BIGINT},
+      </if>
+      <if test="clientGroupId != null" >
+        #{clientGroupId,jdbcType=BIGINT},
+      </if>
+      <if test="clientNo != null" >
+        #{clientNo,jdbcType=VARCHAR},
+      </if>
+      <if test="clientName != null" >
+        #{clientName,jdbcType=VARCHAR},
+      </if>
+      <if test="clientPassword != null" >
+        #{clientPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="clientPhone != null" >
+        #{clientPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="clientIdNo != null" >
+        #{clientIdNo,jdbcType=VARCHAR},
+      </if>
+      <if test="clientRegistDate != null" >
+        #{clientRegistDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="salt != null" >
+        #{salt,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sptwin.xy.entity.Client" >
+    update t_client
+    <set >
+      <if test="clientAgentId != null" >
+        client_agent_id = #{clientAgentId,jdbcType=BIGINT},
+      </if>
+      <if test="clientGroupId != null" >
+        client_group_id = #{clientGroupId,jdbcType=BIGINT},
+      </if>
+      <if test="clientNo != null" >
+        client_no = #{clientNo,jdbcType=VARCHAR},
+      </if>
+      <if test="clientName != null" >
+        client_name = #{clientName,jdbcType=VARCHAR},
+      </if>
+      <if test="clientPassword != null" >
+        client_password = #{clientPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="clientPhone != null" >
+        client_phone = #{clientPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="clientIdNo != null" >
+        client_id_no = #{clientIdNo,jdbcType=VARCHAR},
+      </if>
+      <if test="clientRegistDate != null" >
+        client_regist_date = #{clientRegistDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="salt != null" >
+        salt = #{salt,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sptwin.xy.entity.Client" >
+    update t_client
+    set client_agent_id = #{clientAgentId,jdbcType=BIGINT},
+      client_group_id = #{clientGroupId,jdbcType=BIGINT},
+      client_no = #{clientNo,jdbcType=VARCHAR},
+      client_name = #{clientName,jdbcType=VARCHAR},
+      client_password = #{clientPassword,jdbcType=VARCHAR},
+      client_phone = #{clientPhone,jdbcType=VARCHAR},
+      client_id_no = #{clientIdNo,jdbcType=VARCHAR},
+      client_regist_date = #{clientRegistDate,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=CHAR},
+      salt = #{salt,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

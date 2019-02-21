@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sptwin.xy.mapper.FeeTemplateCustomMapper" >
+  <resultMap id="FTCResultMap" type="com.sptwin.xy.entity.FeeTemplateCommodity" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="fee_template_id" property="feeTemplateId" jdbcType="INTEGER" />
+    <result column="commodity_no" property="commodityNo" jdbcType="VARCHAR" />
+    <result column="commodity_name" property="commodityName" jdbcType="VARCHAR" />
+    <result column="fee" property="fee" jdbcType="DECIMAL" />
+    <result column="modify_date_time" property="modifyDateTime" jdbcType="TIMESTAMP" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="FTResultMap" type="com.sptwin.xy.entity.FeeTemplate" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="fee_template_name" property="feeTemplateName" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="FTC_Column_List" >
+    id, fee_template_id, commodity_no, commodity_name, fee, modify_date_time, user_id
+  </sql>
+  <sql id="FT_Column_List" >
+    id, fee_template_name, type, remark
+  </sql>
+  <select id="queryFeeTemplateCommodityPage" resultMap="FTCResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="FTC_Column_List" />
+    from t_fee_template_commodity
+    where fee_template_id = #{value}
+    order by id desc
+  </select>
+  <select id="queryFeeTemplatePage" resultMap="FTResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="FT_Column_List" />
+    from t_fee_template
+    where type = #{value}
+    order by id desc
+  </select>
+  <insert id="insertSelective" parameterType="com.sptwin.xy.entity.FeeTemplate" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+      SELECT LAST_INSERT_ID() AS id
+    </selectKey>
+    insert into t_fee_template
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="feeTemplateName != null" >
+        fee_template_name,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="feeTemplateName != null" >
+        #{feeTemplateName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into t_fee_template_commodity (fee_template_id, commodity_no,
+    commodity_name, fee, modify_date_time,user_id) VALUES
+    <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.feeTemplateId},#{item.commodityNo},#{item.commodityName},#{item.fee},#{item.modifyDateTime},
+      #{item.userId})
+    </foreach>
+  </insert>
+</mapper>

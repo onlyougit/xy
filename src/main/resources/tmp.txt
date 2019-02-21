@@ -1,0 +1,24 @@
+用户添加：
+{
+  "email": "a@qq.com",
+  "realName": "wangwb",
+  "sysRoleCustomList": [
+    {
+      "id": 2,
+      "roleName": "string"
+    }
+  ],
+  "userName": "wangwb"
+}
+用户删除：
+{
+  "email": "wwb@qq.com",
+  "realName": "wwb",
+  "sysRoleCustomList": [
+    {
+      "id": 2,
+      "roleName": "string"
+    }
+  ],
+"status":0
+}

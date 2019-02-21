@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sptwin.xy.mapper.ClientCustomMapper" >
+  <resultMap id="ClientResultMap" type="com.sptwin.xy.pojo.ClientCustom" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="client_agent_id" property="clientAgentId" jdbcType="BIGINT" />
+    <result column="client_group_id" property="clientGroupId" jdbcType="BIGINT" />
+    <result column="client_no" property="clientNo" jdbcType="VARCHAR" />
+    <result column="client_name" property="clientName" jdbcType="VARCHAR" />
+    <result column="client_password" property="clientPassword" jdbcType="VARCHAR" />
+    <result column="client_phone" property="clientPhone" jdbcType="VARCHAR" />
+    <result column="client_id_no" property="clientIdNo" jdbcType="VARCHAR" />
+    <result column="client_regist_date" property="clientRegistDate" jdbcType="TIMESTAMP" />
+    <result column="status" property="clientStatusEnum" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Client_Column_List" >
+    id, client_agent_id, client_group_id, client_no, client_name, client_phone,
+    client_id_no, client_regist_date, status
+  </sql>
+  <sql id="Client_Column_List2" >
+    id, client_agent_id, client_group_id, client_no, client_name, client_password, client_phone,
+    client_id_no, client_regist_date, status
+  </sql>
+  <!--where-->
+  <sql id="client_where">
+    <if test="list.size() > 0">
+      and client_no in
+      <foreach collection="list" item="item" open="(" close=")" separator=",">
+        #{item}
+      </foreach>
+    </if>
+    <if test="clientAgentId!=null">
+      and client_agent_id =#{clientAgentId}
+    </if>
+    <if test="clientGroupId!=null">
+      and client_group_id =#{clientGroupId}
+    </if>
+  </sql>
+  <select id="queryClientPage" parameterType="com.sptwin.xy.pojo.ClientCustom" resultMap="ClientResultMap">
+    select
+    <include refid="Client_Column_List" />
+    from t_client
+    <where>
+      <include refid="client_where"></include>
+    </where>
+    order by id desc
+  </select>
+  <select id="queryByClientNo" parameterType="java.lang.String" resultMap="ClientResultMap">
+    select
+    <include refid="Client_Column_List2" />
+    from t_client
+    where client_no = #{value}
+  </select>
+  <!--根据AgentIds查询客户信息-->
+  <select id="queryClientByAgentIds" resultMap="ClientResultMap">
+    SELECT
+    <include refid="Client_Column_List" />
+    from t_client
+    WHERE client_agent_id in
+    <foreach collection="list" item="item" open="(" close=")" separator=",">
+      #{item}
+    </foreach>
+  </select>
+  <!--根据GroupIds查询客户信息-->
+  <select id="queryClientByGroupIds" resultMap="ClientResultMap">
+    SELECT
+    <include refid="Client_Column_List" />
+    from t_client
+    WHERE client_group_id in
+    <foreach collection="list" item="item" open="(" close=")" separator=",">
+      #{item}
+    </foreach>
+  </select>
+</mapper>

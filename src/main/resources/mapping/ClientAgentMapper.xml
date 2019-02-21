@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sptwin.xy.mapper.ClientAgentMapper" >
+  <resultMap id="BaseResultMap" type="com.sptwin.xy.entity.ClientAgent" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="client_agent_no" property="clientAgentNo" jdbcType="VARCHAR" />
+    <result column="client_agent_name" property="clientAgentName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, client_agent_no, client_agent_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_client_agent
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_client_agent
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.sptwin.xy.entity.ClientAgent" >
+    insert into t_client_agent (id, client_agent_no, client_agent_name
+      )
+    values (#{id,jdbcType=BIGINT}, #{clientAgentNo,jdbcType=VARCHAR}, #{clientAgentName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sptwin.xy.entity.ClientAgent" >
+    insert into t_client_agent
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="clientAgentNo != null" >
+        client_agent_no,
+      </if>
+      <if test="clientAgentName != null" >
+        client_agent_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="clientAgentNo != null" >
+        #{clientAgentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="clientAgentName != null" >
+        #{clientAgentName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sptwin.xy.entity.ClientAgent" >
+    update t_client_agent
+    <set >
+      <if test="clientAgentNo != null" >
+        client_agent_no = #{clientAgentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="clientAgentName != null" >
+        client_agent_name = #{clientAgentName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sptwin.xy.entity.ClientAgent" >
+    update t_client_agent
+    set client_agent_no = #{clientAgentNo,jdbcType=VARCHAR},
+      client_agent_name = #{clientAgentName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

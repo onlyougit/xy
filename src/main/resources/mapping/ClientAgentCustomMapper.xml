@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sptwin.xy.mapper.ClientAgentCustomMapper" >
+  <resultMap id="ClientAgentResultMap" type="com.sptwin.xy.pojo.ClientAgentCustom" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="client_agent_no" property="clientAgentNo" jdbcType="VARCHAR" />
+    <result column="client_agent_name" property="clientAgentName" jdbcType="VARCHAR" />
+    <collection property="clientGroupList" column="id" ofType="com.sptwin.xy.entity.ClientGroup" select="com.sptwin.xy.mapper.ClientGroupCustomMapper.queryByAgentId">
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, client_agent_no, client_agent_name
+  </sql>
+  <select id="queryClientAgent" resultMap="ClientAgentResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_client_agent
+  </select>
+  <select id="queryAgentAndGroupByAgentIds" resultMap="ClientAgentResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    from t_client_agent
+    <where>
+      <if test="list != null and list.size()>0">
+        and id in
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+          #{item}
+        </foreach>
+      </if>
+    </where>
+  </select>
+  <select id="queryAgentAndGroupByNotInAgentIds" resultMap="ClientAgentResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    from t_client_agent
+    <where>
+      <if test="list != null and list.size()>0">
+        and id not in
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+          #{item}
+        </foreach>
+      </if>
+    </where>
+  </select>
+</mapper>

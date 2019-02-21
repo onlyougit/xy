@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sptwin.xy.mapper.ClientRateRelationMapper" >
+  <resultMap id="BaseResultMap" type="com.sptwin.xy.entity.ClientRateRelation" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="client_no" property="clientNo" jdbcType="VARCHAR" />
+    <result column="deposit_template_id" property="depositTemplateId" jdbcType="BIGINT" />
+    <result column="fee_template_id" property="feeTemplateId" jdbcType="BIGINT" />
+    <result column="risk_template_id" property="riskTemplateId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, client_no, deposit_template_id, fee_template_id, risk_template_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_client_rate_relation
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_client_rate_relation
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.sptwin.xy.entity.ClientRateRelation" >
+    insert into t_client_rate_relation (id, client_no, deposit_template_id, 
+      fee_template_id, risk_template_id)
+    values (#{id,jdbcType=BIGINT}, #{clientNo,jdbcType=VARCHAR}, #{depositTemplateId,jdbcType=BIGINT}, 
+      #{feeTemplateId,jdbcType=BIGINT}, #{riskTemplateId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sptwin.xy.entity.ClientRateRelation" >
+    insert into t_client_rate_relation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="clientNo != null" >
+        client_no,
+      </if>
+      <if test="depositTemplateId != null" >
+        deposit_template_id,
+      </if>
+      <if test="feeTemplateId != null" >
+        fee_template_id,
+      </if>
+      <if test="riskTemplateId != null" >
+        risk_template_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="clientNo != null" >
+        #{clientNo,jdbcType=VARCHAR},
+      </if>
+      <if test="depositTemplateId != null" >
+        #{depositTemplateId,jdbcType=BIGINT},
+      </if>
+      <if test="feeTemplateId != null" >
+        #{feeTemplateId,jdbcType=BIGINT},
+      </if>
+      <if test="riskTemplateId != null" >
+        #{riskTemplateId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sptwin.xy.entity.ClientRateRelation" >
+    update t_client_rate_relation
+    <set >
+      <if test="clientNo != null" >
+        client_no = #{clientNo,jdbcType=VARCHAR},
+      </if>
+      <if test="depositTemplateId != null" >
+        deposit_template_id = #{depositTemplateId,jdbcType=BIGINT},
+      </if>
+      <if test="feeTemplateId != null" >
+        fee_template_id = #{feeTemplateId,jdbcType=BIGINT},
+      </if>
+      <if test="riskTemplateId != null" >
+        risk_template_id = #{riskTemplateId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sptwin.xy.entity.ClientRateRelation" >
+    update t_client_rate_relation
+    set client_no = #{clientNo,jdbcType=VARCHAR},
+      deposit_template_id = #{depositTemplateId,jdbcType=BIGINT},
+      fee_template_id = #{feeTemplateId,jdbcType=BIGINT},
+      risk_template_id = #{riskTemplateId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

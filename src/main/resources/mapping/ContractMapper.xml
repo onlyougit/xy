@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sptwin.xy.mapper.ContractMapper" >
+  <resultMap id="BaseResultMap" type="com.sptwin.xy.entity.Contract" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="commodity_no" property="commodityNo" jdbcType="VARCHAR" />
+    <result column="exchange_no" property="exchangeNo" jdbcType="VARCHAR" />
+    <result column="contract_no" property="contractNo" jdbcType="VARCHAR" />
+    <result column="contract_name" property="contractName" jdbcType="VARCHAR" />
+    <result column="last_trade_date" property="lastTradeDate" jdbcType="TIMESTAMP" />
+    <result column="main_contract" property="mainContract" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, commodity_no, exchange_no, contract_no, contract_name, last_trade_date, main_contract, 
+    status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_contract
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_contract
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.sptwin.xy.entity.Contract" >
+    insert into t_contract (id, commodity_no, exchange_no, 
+      contract_no, contract_name, last_trade_date, 
+      main_contract, status)
+    values (#{id,jdbcType=BIGINT}, #{commodityNo,jdbcType=VARCHAR}, #{exchangeNo,jdbcType=VARCHAR}, 
+      #{contractNo,jdbcType=VARCHAR}, #{contractName,jdbcType=VARCHAR}, #{lastTradeDate,jdbcType=TIMESTAMP}, 
+      #{mainContract,jdbcType=INTEGER}, #{status,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sptwin.xy.entity.Contract" >
+    insert into t_contract
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="commodityNo != null" >
+        commodity_no,
+      </if>
+      <if test="exchangeNo != null" >
+        exchange_no,
+      </if>
+      <if test="contractNo != null" >
+        contract_no,
+      </if>
+      <if test="contractName != null" >
+        contract_name,
+      </if>
+      <if test="lastTradeDate != null" >
+        last_trade_date,
+      </if>
+      <if test="mainContract != null" >
+        main_contract,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="commodityNo != null" >
+        #{commodityNo,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeNo != null" >
+        #{exchangeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNo != null" >
+        #{contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="contractName != null" >
+        #{contractName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastTradeDate != null" >
+        #{lastTradeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mainContract != null" >
+        #{mainContract,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sptwin.xy.entity.Contract" >
+    update t_contract
+    <set >
+      <if test="commodityNo != null" >
+        commodity_no = #{commodityNo,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeNo != null" >
+        exchange_no = #{exchangeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNo != null" >
+        contract_no = #{contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="contractName != null" >
+        contract_name = #{contractName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastTradeDate != null" >
+        last_trade_date = #{lastTradeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mainContract != null" >
+        main_contract = #{mainContract,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sptwin.xy.entity.Contract" >
+    update t_contract
+    set commodity_no = #{commodityNo,jdbcType=VARCHAR},
+      exchange_no = #{exchangeNo,jdbcType=VARCHAR},
+      contract_no = #{contractNo,jdbcType=VARCHAR},
+      contract_name = #{contractName,jdbcType=VARCHAR},
+      last_trade_date = #{lastTradeDate,jdbcType=TIMESTAMP},
+      main_contract = #{mainContract,jdbcType=INTEGER},
+      status = #{status,jdbcType=CHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

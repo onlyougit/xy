@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sptwin.xy.mapper.SelfTradeMapper" >
+  <resultMap id="BaseResultMap" type="com.sptwin.xy.entity.SelfTrade" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="exchange" property="exchange" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="contract" property="contract" jdbcType="VARCHAR" />
+    <result column="buy_sell" property="buySell" jdbcType="VARCHAR" />
+    <result column="tradeprice" property="tradeprice" jdbcType="DECIMAL" />
+    <result column="orderprice" property="orderprice" jdbcType="DECIMAL" />
+    <result column="tradecount" property="tradecount" jdbcType="VARCHAR" />
+    <result column="fee" property="fee" jdbcType="VARCHAR" />
+    <result column="optionfee" property="optionfee" jdbcType="VARCHAR" />
+    <result column="exchangedate" property="exchangedate" jdbcType="VARCHAR" />
+    <result column="exchangetime" property="exchangetime" jdbcType="VARCHAR" />
+    <result column="exchangetradenumber" property="exchangetradenumber" jdbcType="VARCHAR" />
+    <result column="tradedate" property="tradedate" jdbcType="VARCHAR" />
+    <result column="tradetime" property="tradetime" jdbcType="VARCHAR" />
+    <result column="ordercontract" property="ordercontract" jdbcType="VARCHAR" />
+    <result column="contracttype" property="contracttype" jdbcType="VARCHAR" />
+    <result column="tradesource" property="tradesource" jdbcType="VARCHAR" />
+    <result column="ordertype" property="ordertype" jdbcType="VARCHAR" />
+    <result column="ordernumber" property="ordernumber" jdbcType="VARCHAR" />
+    <result column="tradenumber" property="tradenumber" jdbcType="VARCHAR" />
+    <result column="systemnumber" property="systemnumber" jdbcType="VARCHAR" />
+    <result column="orderuser" property="orderuser" jdbcType="VARCHAR" />
+    <result column="currency" property="currency" jdbcType="VARCHAR" />
+    <result column="streamnumber" property="streamnumber" jdbcType="VARCHAR" />
+    <result column="openclose" property="openclose" jdbcType="VARCHAR" />
+    <result column="closeprofit" property="closeprofit" jdbcType="VARCHAR" />
+    <result column="usernumber" property="usernumber" jdbcType="VARCHAR" />
+    <result column="tdata" property="tdata" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, account, exchange, name, contract, buy_sell, tradeprice, orderprice, tradecount, 
+    fee, optionfee, exchangedate, exchangetime, exchangetradenumber, tradedate, tradetime, 
+    ordercontract, contracttype, tradesource, ordertype, ordernumber, tradenumber, systemnumber, 
+    orderuser, currency, streamnumber, openclose, closeprofit, usernumber, tdata
+  </sql>
+  <select id="querySelfTrade" resultMap="BaseResultMap">
+    select tst.* from t_self_trade tst,
+    (
+    select ga.account,ga.orderprice,ga.tradeprice,ga.tradedate,ga.tradetime from
+    (
+    select account,orderprice,tradeprice,tradedate,tradetime,buy_sell from t_self_trade
+    GROUP BY account,orderprice,tradeprice,tradedate,tradetime,buy_sell
+    ) ga
+    GROUP BY ga.account,ga.orderprice,ga.tradeprice,ga.tradedate,ga.tradetime HAVING count(*)>1
+    ) gb
+    where
+    tst.account=gb.account and tst.orderprice=gb.orderprice and tst.tradeprice=gb.tradeprice
+    and tst.tradedate=gb.tradedate and tst.tradetime=gb.tradetime
+    order by tst.account,tst.orderprice,tst.tradeprice,tst.tradedate,tst.tradetime
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_self_trade
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_self_trade
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.sptwin.xy.entity.SelfTrade" >
+    insert into t_self_trade (id, account, exchange, 
+      name, contract, buy_sell, 
+      tradeprice, orderprice, tradecount, 
+      fee, optionfee, exchangedate, 
+      exchangetime, exchangetradenumber, tradedate, 
+      tradetime, ordercontract, contracttype, 
+      tradesource, ordertype, ordernumber, 
+      tradenumber, systemnumber, orderuser, 
+      currency, streamnumber, openclose, 
+      closeprofit, usernumber, tdata
+      )
+    values (#{id,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{exchange,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{contract,jdbcType=VARCHAR}, #{buySell,jdbcType=VARCHAR}, 
+      #{tradeprice,jdbcType=DECIMAL}, #{orderprice,jdbcType=DECIMAL}, #{tradecount,jdbcType=VARCHAR}, 
+      #{fee,jdbcType=VARCHAR}, #{optionfee,jdbcType=VARCHAR}, #{exchangedate,jdbcType=VARCHAR}, 
+      #{exchangetime,jdbcType=VARCHAR}, #{exchangetradenumber,jdbcType=VARCHAR}, #{tradedate,jdbcType=VARCHAR}, 
+      #{tradetime,jdbcType=VARCHAR}, #{ordercontract,jdbcType=VARCHAR}, #{contracttype,jdbcType=VARCHAR}, 
+      #{tradesource,jdbcType=VARCHAR}, #{ordertype,jdbcType=VARCHAR}, #{ordernumber,jdbcType=VARCHAR}, 
+      #{tradenumber,jdbcType=VARCHAR}, #{systemnumber,jdbcType=VARCHAR}, #{orderuser,jdbcType=VARCHAR}, 
+      #{currency,jdbcType=VARCHAR}, #{streamnumber,jdbcType=VARCHAR}, #{openclose,jdbcType=VARCHAR}, 
+      #{closeprofit,jdbcType=VARCHAR}, #{usernumber,jdbcType=VARCHAR}, #{tdata,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sptwin.xy.entity.SelfTrade" >
+    insert into t_self_trade
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="exchange != null" >
+        exchange,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="contract != null" >
+        contract,
+      </if>
+      <if test="buySell != null" >
+        buy_sell,
+      </if>
+      <if test="tradeprice != null" >
+        tradeprice,
+      </if>
+      <if test="orderprice != null" >
+        orderprice,
+      </if>
+      <if test="tradecount != null" >
+        tradecount,
+      </if>
+      <if test="fee != null" >
+        fee,
+      </if>
+      <if test="optionfee != null" >
+        optionfee,
+      </if>
+      <if test="exchangedate != null" >
+        exchangedate,
+      </if>
+      <if test="exchangetime != null" >
+        exchangetime,
+      </if>
+      <if test="exchangetradenumber != null" >
+        exchangetradenumber,
+      </if>
+      <if test="tradedate != null" >
+        tradedate,
+      </if>
+      <if test="tradetime != null" >
+        tradetime,
+      </if>
+      <if test="ordercontract != null" >
+        ordercontract,
+      </if>
+      <if test="contracttype != null" >
+        contracttype,
+      </if>
+      <if test="tradesource != null" >
+        tradesource,
+      </if>
+      <if test="ordertype != null" >
+        ordertype,
+      </if>
+      <if test="ordernumber != null" >
+        ordernumber,
+      </if>
+      <if test="tradenumber != null" >
+        tradenumber,
+      </if>
+      <if test="systemnumber != null" >
+        systemnumber,
+      </if>
+      <if test="orderuser != null" >
+        orderuser,
+      </if>
+      <if test="currency != null" >
+        currency,
+      </if>
+      <if test="streamnumber != null" >
+        streamnumber,
+      </if>
+      <if test="openclose != null" >
+        openclose,
+      </if>
+      <if test="closeprofit != null" >
+        closeprofit,
+      </if>
+      <if test="usernumber != null" >
+        usernumber,
+      </if>
+      <if test="tdata != null" >
+        tdata,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="exchange != null" >
+        #{exchange,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="contract != null" >
+        #{contract,jdbcType=VARCHAR},
+      </if>
+      <if test="buySell != null" >
+        #{buySell,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeprice != null" >
+        #{tradeprice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderprice != null" >
+        #{orderprice,jdbcType=DECIMAL},
+      </if>
+      <if test="tradecount != null" >
+        #{tradecount,jdbcType=VARCHAR},
+      </if>
+      <if test="fee != null" >
+        #{fee,jdbcType=VARCHAR},
+      </if>
+      <if test="optionfee != null" >
+        #{optionfee,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangedate != null" >
+        #{exchangedate,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangetime != null" >
+        #{exchangetime,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangetradenumber != null" >
+        #{exchangetradenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tradedate != null" >
+        #{tradedate,jdbcType=VARCHAR},
+      </if>
+      <if test="tradetime != null" >
+        #{tradetime,jdbcType=VARCHAR},
+      </if>
+      <if test="ordercontract != null" >
+        #{ordercontract,jdbcType=VARCHAR},
+      </if>
+      <if test="contracttype != null" >
+        #{contracttype,jdbcType=VARCHAR},
+      </if>
+      <if test="tradesource != null" >
+        #{tradesource,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertype != null" >
+        #{ordertype,jdbcType=VARCHAR},
+      </if>
+      <if test="ordernumber != null" >
+        #{ordernumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tradenumber != null" >
+        #{tradenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="systemnumber != null" >
+        #{systemnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderuser != null" >
+        #{orderuser,jdbcType=VARCHAR},
+      </if>
+      <if test="currency != null" >
+        #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="streamnumber != null" >
+        #{streamnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="openclose != null" >
+        #{openclose,jdbcType=VARCHAR},
+      </if>
+      <if test="closeprofit != null" >
+        #{closeprofit,jdbcType=VARCHAR},
+      </if>
+      <if test="usernumber != null" >
+        #{usernumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tdata != null" >
+        #{tdata,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sptwin.xy.entity.SelfTrade" >
+    update t_self_trade
+    <set >
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="exchange != null" >
+        exchange = #{exchange,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="contract != null" >
+        contract = #{contract,jdbcType=VARCHAR},
+      </if>
+      <if test="buySell != null" >
+        buy_sell = #{buySell,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeprice != null" >
+        tradeprice = #{tradeprice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderprice != null" >
+        orderprice = #{orderprice,jdbcType=DECIMAL},
+      </if>
+      <if test="tradecount != null" >
+        tradecount = #{tradecount,jdbcType=VARCHAR},
+      </if>
+      <if test="fee != null" >
+        fee = #{fee,jdbcType=VARCHAR},
+      </if>
+      <if test="optionfee != null" >
+        optionfee = #{optionfee,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangedate != null" >
+        exchangedate = #{exchangedate,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangetime != null" >
+        exchangetime = #{exchangetime,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangetradenumber != null" >
+        exchangetradenumber = #{exchangetradenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tradedate != null" >
+        tradedate = #{tradedate,jdbcType=VARCHAR},
+      </if>
+      <if test="tradetime != null" >
+        tradetime = #{tradetime,jdbcType=VARCHAR},
+      </if>
+      <if test="ordercontract != null" >
+        ordercontract = #{ordercontract,jdbcType=VARCHAR},
+      </if>
+      <if test="contracttype != null" >
+        contracttype = #{contracttype,jdbcType=VARCHAR},
+      </if>
+      <if test="tradesource != null" >
+        tradesource = #{tradesource,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertype != null" >
+        ordertype = #{ordertype,jdbcType=VARCHAR},
+      </if>
+      <if test="ordernumber != null" >
+        ordernumber = #{ordernumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tradenumber != null" >
+        tradenumber = #{tradenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="systemnumber != null" >
+        systemnumber = #{systemnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderuser != null" >
+        orderuser = #{orderuser,jdbcType=VARCHAR},
+      </if>
+      <if test="currency != null" >
+        currency = #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="streamnumber != null" >
+        streamnumber = #{streamnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="openclose != null" >
+        openclose = #{openclose,jdbcType=VARCHAR},
+      </if>
+      <if test="closeprofit != null" >
+        closeprofit = #{closeprofit,jdbcType=VARCHAR},
+      </if>
+      <if test="usernumber != null" >
+        usernumber = #{usernumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tdata != null" >
+        tdata = #{tdata,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sptwin.xy.entity.SelfTrade" >
+    update t_self_trade
+    set account = #{account,jdbcType=VARCHAR},
+      exchange = #{exchange,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      contract = #{contract,jdbcType=VARCHAR},
+      buy_sell = #{buySell,jdbcType=VARCHAR},
+      tradeprice = #{tradeprice,jdbcType=DECIMAL},
+      orderprice = #{orderprice,jdbcType=DECIMAL},
+      tradecount = #{tradecount,jdbcType=VARCHAR},
+      fee = #{fee,jdbcType=VARCHAR},
+      optionfee = #{optionfee,jdbcType=VARCHAR},
+      exchangedate = #{exchangedate,jdbcType=VARCHAR},
+      exchangetime = #{exchangetime,jdbcType=VARCHAR},
+      exchangetradenumber = #{exchangetradenumber,jdbcType=VARCHAR},
+      tradedate = #{tradedate,jdbcType=VARCHAR},
+      tradetime = #{tradetime,jdbcType=VARCHAR},
+      ordercontract = #{ordercontract,jdbcType=VARCHAR},
+      contracttype = #{contracttype,jdbcType=VARCHAR},
+      tradesource = #{tradesource,jdbcType=VARCHAR},
+      ordertype = #{ordertype,jdbcType=VARCHAR},
+      ordernumber = #{ordernumber,jdbcType=VARCHAR},
+      tradenumber = #{tradenumber,jdbcType=VARCHAR},
+      systemnumber = #{systemnumber,jdbcType=VARCHAR},
+      orderuser = #{orderuser,jdbcType=VARCHAR},
+      currency = #{currency,jdbcType=VARCHAR},
+      streamnumber = #{streamnumber,jdbcType=VARCHAR},
+      openclose = #{openclose,jdbcType=VARCHAR},
+      closeprofit = #{closeprofit,jdbcType=VARCHAR},
+      usernumber = #{usernumber,jdbcType=VARCHAR},
+      tdata = #{tdata,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <insert id ="batchInsertTrade" parameterType="java.util.List" >
+    insert into t_self_trade
+    (id, account, exchange,
+    name, contract, buy_sell,
+    tradeprice, orderprice, tradecount,
+    fee, optionfee, exchangedate,
+    exchangetime, exchangetradenumber, tradedate,
+    tradetime, ordercontract, contracttype,
+    tradesource, ordertype, ordernumber,
+    tradenumber, systemnumber, orderuser,
+    currency, streamnumber, openclose,
+    closeprofit, usernumber, tdata)
+    values
+    <foreach collection ="list" item="item" index= "index" separator =",">
+      (
+      #{item.id,jdbcType=BIGINT}, #{item.account,jdbcType=VARCHAR}, #{item.exchange,jdbcType=VARCHAR},
+      #{item.name,jdbcType=VARCHAR}, #{item.contract,jdbcType=VARCHAR}, #{item.buySell,jdbcType=VARCHAR},
+      #{item.tradeprice,jdbcType=DECIMAL}, #{item.orderprice,jdbcType=DECIMAL}, #{item.tradecount,jdbcType=VARCHAR},
+      #{item.fee,jdbcType=VARCHAR}, #{item.optionfee,jdbcType=VARCHAR}, #{item.exchangedate,jdbcType=VARCHAR},
+      #{item.exchangetime,jdbcType=VARCHAR}, #{item.exchangetradenumber,jdbcType=VARCHAR}, #{item.tradedate,jdbcType=VARCHAR},
+      #{item.tradetime,jdbcType=VARCHAR}, #{item.ordercontract,jdbcType=VARCHAR}, #{item.contracttype,jdbcType=VARCHAR},
+      #{item.tradesource,jdbcType=VARCHAR}, #{item.ordertype,jdbcType=VARCHAR}, #{item.ordernumber,jdbcType=VARCHAR},
+      #{item.tradenumber,jdbcType=VARCHAR}, #{item.systemnumber,jdbcType=VARCHAR}, #{item.orderuser,jdbcType=VARCHAR},
+      #{item.currency,jdbcType=VARCHAR}, #{item.streamnumber,jdbcType=VARCHAR}, #{item.openclose,jdbcType=VARCHAR},
+      #{item.closeprofit,jdbcType=VARCHAR}, #{item.usernumber,jdbcType=VARCHAR}, #{item.tdata,jdbcType=VARCHAR}
+      )
+    </foreach >
+  </insert >
+</mapper>

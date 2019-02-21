@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sptwin.xy.mapper.ExchangeCustomMapper" >
+  <resultMap id="ExchangeResultMap" type="com.sptwin.xy.pojo.ExchangeCustom" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="exchange_no" property="exchangeNo" jdbcType="VARCHAR" />
+    <result column="exchange_name" property="exchangeName" jdbcType="VARCHAR" />
+    <result column="status" property="exchangeStatusEnum" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Exchange_Column_List" >
+    id, exchange_no, exchange_name, status
+  </sql>
+  <select id="queryExchangePage" resultMap="ExchangeResultMap">
+    select
+    <include refid="Exchange_Column_List" />
+    from t_exchange
+    order by id desc
+  </select>
+  <select id="queryById" parameterType="java.lang.Long" resultMap="ExchangeResultMap">
+    select
+    <include refid="Exchange_Column_List" />
+    from t_exchange
+    where id = #{value}
+  </select>
+</mapper>
